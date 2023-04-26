@@ -1,88 +1,83 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css } from "lit";
+import "../src/circle-wrap.js";
+import "@lrnwebcomponents/simple-icon/simple-icon.js";
+import "@lrnwebcomponents/simple-icon/lib/simple-icons.js";
+import "@lrnwebcomponents/simple-icon/lib/simple-icon-button.js";
 
-const logo = new URL('../assets/open-wc-logo.svg', import.meta.url).href;
-
-class BadgeBook extends LitElement {
+class BadgeSticker extends LitElement {
   static properties = {
-    header: { type: String },
-  }
+    logo: { type: String },
+    title: { type: String },
+    date: { type: String },
+    verificationLink: { type: String },
+  };
 
   static styles = css`
-    :host {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      font-size: calc(10px + 2vmin);
-      color: #1a2b42;
-      max-width: 960px;
-      margin: 0 auto;
-      text-align: center;
-      background-color: var(--badge-book-background-color);
+    .circle {
+      position: relative;
+      padding: 20px;
+      margin: 20px;
+      width: 200px;
+      height: 200px;
+      background: #ff0030;
+      color: #fff;
+      font-size: 21px;
+      font-weight: bold;
+      line-height: 1.3em;
+      border: 2px dashed #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px #ff0030, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+      text-shadow: -1px -1px #aa3030;
+      font-weight: normal;
     }
-
-    main {
-      flex-grow: 1;
+    circle-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
-
     .logo {
-      margin-top: 36px;
-      animation: app-logo-spin infinite 20s linear;
+      --simple-icon-width: 75px;
+      --simple-icon-height: 75px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
-
-    @keyframes app-logo-spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .app-footer {
-      font-size: calc(12px + 0.5vmin);
-      align-items: center;
-    }
-
-    .app-footer a {
-      margin-left: 5px;
+    .bottom-links {
+      position: absolute;
+      top: 92%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-decoration: none;
     }
   `;
 
   constructor() {
     super();
-    this.header = 'My app';
+    this.logo = "simple-icon:check";
+    this.title = "Badge Title";
+    this.date = "2021-01-01";
+    this.verificationLink = "https://www.example.com";
   }
 
   render() {
     return html`
-      <main>
-        <div class="logo"><img alt="open-wc logo" src=${logo} /></div>
-        <h1>${this.header}</h1>
-
-        <p>Edit <code>src/BadgeBook.js</code> and save to reload.</p>
-        <a
-          class="app-link"
-          href="https://open-wc.org/guides/developing-components/code-examples/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Code examples
-        </a>
-      </main>
-
-      <p class="app-footer">
-        🚽 Made with love by
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/open-wc"
-          >open-wc</a
-        >.
-      </p>
+      <div class="circle">
+        <circle-wrap title="${this.title}" date="${this.date}"></circle-wrap>
+        <simple-icon
+          class="logo"
+          icon="${this.logo}"
+          accent-color="purple"
+        ></simple-icon>
+        <div class="bottom-links">
+          <simple-icon-button icon="editor:insert-link"></simple-icon-button>
+          <simple-icon-button icon="star"></simple-icon-button>
+          <simple-icon-button icon="description"></simple-icon-button>
+        </div>
+      </div>
     `;
   }
 }
 
-customElements.define('badge-book', BadgeBook);
+customElements.define("badge-sticker", BadgeSticker);

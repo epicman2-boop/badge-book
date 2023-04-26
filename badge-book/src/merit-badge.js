@@ -1,87 +1,83 @@
 import { LitElement, html, css } from "lit";
-import "@lrnwebcomponents/absolute-position-behavior/absolute-position-behavior.js";
+import "../src/circle-wrap.js";
 import "@lrnwebcomponents/simple-icon/simple-icon.js";
 import "@lrnwebcomponents/simple-icon/lib/simple-icons.js";
 import "@lrnwebcomponents/simple-icon/lib/simple-icon-button.js";
-import "../src/circle-wrap.js";
-import "../src/badge-sticker.js";
-import "../src/locked-badge.js";
 
-class MeritBadge extends LitElement {
+class BadgeSticker extends LitElement {
   static properties = {
-    date: { type: String },
     logo: { type: String },
     title: { type: String },
-    detailsIcon: { type: String },
+    date: { type: String },
     verificationLink: { type: String },
-    skills: { type: Array },
-    criteriaName: { type: String },
-    skillsOpened: { type: Boolean },
   };
 
   static styles = css`
-
-
-    #badge {
+    .circle {
       position: relative;
-      z-index: 2;
+      padding: 20px;
+      margin: 20px;
+      width: 200px;
+      height: 200px;
+      background: #ff0030;
+      color: #fff;
+      font-size: 21px;
+      font-weight: bold;
+      line-height: 1.3em;
+      border: 2px dashed #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px #ff0030, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+      text-shadow: -1px -1px #aa3030;
+      font-weight: normal;
+    }
+    circle-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .logo {
+      --simple-icon-width: 75px;
+      --simple-icon-height: 75px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .bottom-links {
+      position: absolute;
+      top: 92%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-decoration: none;
     }
   `;
 
   constructor() {
     super();
-    this.skills = [];
-    this.skillsOpened = false;
+    this.logo = "simple-icon:check";
+    this.title = "Badge Title";
+    this.date = "2021-01-01";
+    this.verificationLink = "https://www.example.com";
   }
 
   render() {
     return html`
-      <locked-badge ?hidden="${this.skillsOpened}"></locked-badge>
-      <div id="badge">
-        <badge-sticker
-          id="badge-sticker"
-          logo="${this.logo}"
-          title="${this.title}"
-          date="${this.date}"
-        ></badge-sticker>
-        <simple-icon-button
-          icon="cancel"
-          @click="${this.skillClick}"
-        ></simple-icon-button>
+      <div class="circle">
+        <circle-wrap title="${this.title}" date="${this.date}"></circle-wrap>
+        <simple-icon
+          class="logo"
+          icon="${this.logo}"
+          accent-color="purple"
+        ></simple-icon>
+        <div class="bottom-links">
+          <simple-icon-button icon="editor:insert-link"></simple-icon-button>
+          <simple-icon-button icon="star"></simple-icon-button>
+          <simple-icon-button icon="description"></simple-icon-button>
+        </div>
       </div>
-
-      <absolute-position-behavior
-        justify
-        position="bottom"
-        allow-overlap
-        sticky
-        auto
-        .target="${this.activeNode}"
-        ?hidden="${!this.skillsOpened}"
-      >
-        ${this.skills.map(
-          (item) => html` <ol>
-            <li>List here</li>
-            <li>List here</li>
-            <li>List here</li>
-            <li>List here</li>
-          </ol>`
-        )}
-      </absolute-position-behavior>
     `;
-  }
-
-  firstUpdated(changedProperties) {
-    if (super.firstUpdated) {
-      super.firstUpdated(changedProperties);
-    }
-    this.activeNode = this.shadowRoot.querySelector("#badge");
-  }
-
-  skillClick(e) {
-    this.skillsOpened = !this.skillsOpened;
-    console.log("skillClick", this.skillsOpened);
   }
 }
 
-customElements.define("merit-badge", MeritBadge);
+customElements.define("badge-sticker", BadgeSticker);
